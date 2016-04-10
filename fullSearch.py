@@ -30,6 +30,7 @@ class FullSearch:
                 else:
                     # print "makroblok(",i,",",j,")=",self.__makroBlock__(i,j),"makroblok(",i+n,",",j+m,")=",self.__makroBlock__(i+n,j+m,isCurrent=False)
                     sum = sum + (self.__makroBlock__(i,j)-self.__makroBlock__(i+n,j+m,isCurrent=False))*(self.__makroBlock__(i,j)-self.__makroBlock__(i+n,j+m,isCurrent=False))
+        # print "macroblock",self.__position___(0,0),"for vector[",n,",",m,"] sum=",sum
         return sum
 
     #remember that y is reversed
@@ -43,7 +44,7 @@ class FullSearch:
     # returns a cut part of picture
     def __makroBlock__(self,i,j,isCurrent=True):
         y, x=self.__position___(i,j)
-        if x>=len(self.current_picture[0]) or x<0: # python allows negative index but I dont
+        if x>=len(self.current_picture[0]) or x<0: # python allows negative index but I don't
              raise IndexError('x out of list')
         if  y>=len(self.current_picture) or  y<0:
              raise IndexError('y out of list')
@@ -82,7 +83,6 @@ class FullSearch:
             for x in range(num_of_macroblocs_in_x):
                 self.x=x*self.n
                 self.y=y*self.n
-                print 'x=',self.x,' y=',self.y
                 row.append(self.motionVector())
             result.append(row)
         return result

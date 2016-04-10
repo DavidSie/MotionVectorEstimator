@@ -35,11 +35,17 @@ class PreProcessingMethods (unittest.TestCase):
         # coordinates of top left corner of macro block
         self.small_fullsearch.y= 0
         self.small_fullsearch.x = 1
+
         self.assertEqual(self.small_fullsearch.motionVector(), return_value)
-
     def test_motionEstimation(self):
-        # result should fit one of 2 choices
-        result1=[[[0, 1],[0, -1]], [[0, -1],[0, 1]]]
-        result2=[[[0, 1],[-1, -1]], [[1, -1],[0, 1]]]
+        self.small_fullsearch.p = 1
+        self.small_fullsearch.n = 1
+        result=[[[0,0],[0,1],[0,-1],[0,0]]]
+        self.assertEqual(self.small_fullsearch.motionEstimation(),result)
 
+    def test_motionEstimation2(self):
+        # result should fit one of 2 choices
+        result1=[[[0, 1],[0, -2]], [[0, 1],[-2, -2]]]
+        self.small_fullsearch.p = 1
+        # [0,0]
         self.assertEqual(self.fullsearch_.motionEstimation(),result1)
