@@ -7,13 +7,14 @@ by default program searches for 1.png and 2.png
 
 # Picture Reading
  list ` [[0,0,0,0],[0,1,0,0],[0,3,0,0],[0,0,0,0]]` represent picture
- ` y ^
+ ```
+  y ^
     | 0,0,0,0
     | 0,1,0,0
     | 0,3,0,0
     | 0,0,0,0
     -----------> x
- `
+ ```
 first list(of y) is reversed to start from the bottom.
 We assume to read monochromatic pictures
 
