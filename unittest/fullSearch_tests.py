@@ -2,7 +2,7 @@ __author__ = 'davidsiecinski'
 import unittest
 import fullSearch
 
-class PreProcessingMethods (unittest.TestCase):
+class FullSearchTestCase (unittest.TestCase):
     def setUp(self):
         current_picture=[[0,0,0,0],[0,1,0,0],[0,3,0,0],[0,0,0,0]]
         reference_picture=[[0,0,0,0],[0,0,1,0],[0,0,3,0],[0,0,0,0]]
