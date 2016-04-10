@@ -1,6 +1,9 @@
 __author__ = 'davidsiecinski'
+from abc import ABCMeta, abstractmethod
+
 
 class Search:
+    __metaclass__ = ABCMeta
 
     def __init__(self,current_picture,referenced_picture,n=2,p=2):
         self.current_picture=current_picture
@@ -39,6 +42,7 @@ class Search:
         else:
             return list(reversed(self.referenced_picture))[y][x]
 
+    @abstractmethod
     def motionVector(self):
         print "Vector motion"
 
