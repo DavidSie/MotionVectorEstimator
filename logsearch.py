@@ -44,31 +44,31 @@ class LogSearch(search.Search):
         stop=0
         n = n_start
         m = m_start
-        step = 64
+        step = 8
         while(stop==0):
-            print "WHILE LOOP STARTS HERE ------------"
-            print "Step size = ",step
+            #print "WHILE LOOP STARTS HERE ------------"
+           # print "Step size = ",step
 
             min_value = self.__sumOfAbsoluteDifferences__(n,m)
             iteration=iteration+1
-            print 'Set min value for center point [',n,',',m,'] = ', min_value
+            #print 'Set min value for center point [',n,',',m,'] = ', min_value
 
 
             for i in range(n-step,n+step+1,step):
                 if(i==n):
                     for j in range(m-step,m+step+1,step):
                         value = self.__sumOfAbsoluteDifferences__(i,j)
-                        print 'value[',i,',',j,']= ', value
+                        #print 'value[',i,',',j,']= ', value
                         [n,m,value,min_value]=self.findMinLocation(n,m,i,j,value,min_value)
                         #print [n,m,value,min_value]
                 else:
                     value = self.__sumOfAbsoluteDifferences__(i,m)
-                    print 'value[',i,',',m,']= ', value
+                    #print 'value[',i,',',m,']= ', value
                     temp=m
                     [n,m,value,min_value]=self.findMinLocation(n,m,i,temp,value,min_value)
 
             #foud new min poit
-            print "New center point is: ",[n,m,value,min_value]
+            #print "New center point is: ",[n,m,value,min_value]
 
             if([n,m] == [n_start,m_start]):
                 step=step/2
@@ -81,20 +81,20 @@ class LogSearch(search.Search):
 
 
 
-        print "Step = 1 ---> find min from 8 points around center point"
+        #print "Step = 1 ---> find min from 8 points around center point"
         min_value = self.__sumOfAbsoluteDifferences__(n,m)
         iteration=iteration+1
-        print 'inicial min value[',n,',',m,']= ', min_value
+        #print 'inicial min value[',n,',',m,']= ', min_value
         for i in range(n-step,n+step+1,step):
             for j in range(m-step,m+step+1,step):
                 value = self.__sumOfAbsoluteDifferences__(i,j)
-                print 'value[',i,',',j,']= ', value
+                #print 'value[',i,',',j,']= ', value
                 [n,m,value,min_value]=self.findMinLocation(n,m,i,j,value,min_value)
-        print [n,m,value,min_value]
+        #print [n,m,value,min_value]
 
 
 
-        return [n,m,min_value]
+        return [n,m]
 
     def findMinLocation(self,n,m,i,j,value,min_value):
         if value<min_value:
