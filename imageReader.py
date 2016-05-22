@@ -16,3 +16,6 @@ def loadImage(filepath):
     image_list2d = [image_array[i * width:(i + 1) * width] for i in xrange(height)]
     # im.rotate(45).show()
     return image_list2d
+
+
+

@@ -1,4 +1,4 @@
-
+import math
 import  imageReader
 import fullSearch
 import logsearch
@@ -13,6 +13,22 @@ def raw_input_with_default(text,default):
     if not input:
         input = default
     return input
+
+def psnr(orignal_picture,compressed_picture):
+#     peak signal-to-noise ratio
+    mse =0
+    #mean squared error
+    for i in range(len(orignal_picture)):
+        for j in range(len(orignal_picture[i])):
+            mse=mse+(orignal_picture[i][j]-compressed_picture[i][j])*(orignal_picture[i][j]-compressed_picture[i][j])
+    mse=mse/(len(orignal_picture)*len(orignal_picture[i]))
+    mx_value=0
+    for lst in orignal_picture:
+        value=max(lst)
+        if value > mx_value:
+            mx_value=value
+    psnr_=10*math.log( mx_value*mx_value/ mse, 10)
+    return psnr_
 
 current_picture=[]
 referenced_picture=[]
@@ -35,7 +51,8 @@ motion_estimation=None
 start = time.time()
 if "full" in feed_in.lower() :
     full_ = fullSearch.FullSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p)
-    motion_estimation = full_.motionEstimation()
+    # motion_estimation = full_.full_.motionEstimation()
+    compressedImage = full_.createCompressedImage()
     print motion_estimation
 elif "diamond" in feed_in.lower() :
     # TODO fill me with diamond search code
@@ -43,7 +60,8 @@ elif "diamond" in feed_in.lower() :
     exit()
 elif "log" in feed_in.lower() :
     log = logsearch.LogSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p )
-    motion_estimation = log.motionEstimation()
+    # motion_estimation = log.motionEstimation()
+    compressedImage = log.createCompressedImage()
     print motion_estimation
 else:
     print "Not found"
@@ -51,5 +69,6 @@ else:
 end = time.time()
 running_time=(end - start)
 print "it took: ",running_time, "s"
+print psnr(referenced_picture,compressedImage),"[dB] - bigger value is better"
 
 

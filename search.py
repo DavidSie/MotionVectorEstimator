@@ -58,3 +58,31 @@ class Search:
                 row.append(self.motionVector())
             result.append(row)
         return result
+
+    def createCompressedImage(self):
+        num_of_macroblocs_in_y=len(self.current_picture)/self.n
+        num_of_macroblocs_in_x=len(self.current_picture[0])/self.n
+
+        mE=self.motionEstimation()
+        compressedImage = [0] * len(self.current_picture)
+        for i in range(len(compressedImage)):
+            compressedImage[i] = [0] * len(self.current_picture[0])
+        try :
+            for y_ in range(num_of_macroblocs_in_y):
+                for x_ in range(num_of_macroblocs_in_x):
+                    x = x_*self.n
+                    y = y_*self.n
+                    for n1 in range(self.n):
+                        for m1 in range(self.n):
+                            offset_y = mE[y_][x_][0]
+                            offset_x = mE[y_][x_][1]
+                            compressedImage[y + n1 + offset_y][x + m1 + offset_x] = self.current_picture[y+n1][x+m1]
+        except IndexError as e:
+            print "Error: ",e.message,e.args
+            print "compressedImage size: [",len(compressedImage),"][",y + n1 + offset_y*self.n,"]"
+            print "value: [",y + n1 + offset_y*self.n,"][",x + m1 + offset_x*self.n,"]"
+            print "y=",y," n1=",n1," offset_y",offset_y," n=",self.n," x=",x," m1=",m1," offset_x=",offset_x
+            print "current_picture[",y+n1,"][",x+m1,"]= ",self.current_picture[y+n1][x+m1]
+            exit()
+
+        return compressedImage

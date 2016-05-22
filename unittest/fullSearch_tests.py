@@ -44,7 +44,6 @@ class FullSearchTestCase (unittest.TestCase):
         self.assertEqual(self.small_fullsearch.motionEstimation(),result)
 
     def test_motionEstimation2(self):
-        # result should fit one of 2 choices
         result1=[[[0, 1],[0, -2]], [[0, 1],[-2, -2]]]
         self.small_fullsearch.p = 1
         # [0,0]
