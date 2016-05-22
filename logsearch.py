@@ -8,7 +8,7 @@ class LogSearch(search.Search):
 
 
 
-    def _init_(self,current_picture, referenced_picture,n=2,p=2):
+    def __init__(self,current_picture, referenced_picture,n=2,p=2):
         self.current_picture = current_picture
         self.referenced_picture = referenced_picture
         self.n = n
