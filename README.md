@@ -4,6 +4,7 @@ This repo contains python app to calculate Motion Vector, and to compare methods
 # Running
 To test a program use 2 black and white  frames.
 by default program searches for 1.jpg and 2.jpg
+(movement 50px to right and 60px down between first and second example pictures) 
 
 # Picture Reading
  list ` [[0,0,0,0],[0,1,0,0],[0,3,0,0],[0,0,0,0]]` represent picture
