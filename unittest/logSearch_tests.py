@@ -1,16 +1,16 @@
 __author__ = 'davidsiecinski'
 import unittest
-import logSearch
+import logsearch
 
 class LogSearchTestCase (unittest.TestCase):
     def setUp(self):
         current_picture=[[0,0,0,0],[0,1,0,0],[0,3,0,0],[0,0,0,0]]
         reference_picture=[[0,0,0,0],[0,0,1,0],[0,0,3,0],[0,0,0,0]]
-        self.logsearch_= logSearch.LogSearch(current_picture,reference_picture)
+        self.logsearch_= logsearch.LogSearch(current_picture,reference_picture)
 
         small_current_picture=[[0,1,0,0]]
         small_reference_picture=[[0,0,1,0]]
-        self.small_logsearch = logSearch.LogSearch(small_current_picture,small_reference_picture)
+        self.small_logsearch = logsearch.LogSearch(small_current_picture,small_reference_picture)
 
 
     def test_motionVector(self):
