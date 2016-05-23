@@ -6,7 +6,7 @@ import time
 import diamondSearch
 
 __name__='MotionVectorEstimator'
-__version__='1.0.0'
+__version__='1.1.0'
 
 def raw_input_with_default(text,default):
     input = raw_input(text+'['+default +']'+ chr(8)*4)
