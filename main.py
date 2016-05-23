@@ -6,7 +6,7 @@ import time
 #import diamondSearch
 
 __name__='MotionVectorEstimator'
-__version__='1.0.0rc1'
+__version__='1.0.0'
 
 def raw_input_with_default(text,default):
     input = raw_input(text+'['+default +']'+ chr(8)*4)
@@ -70,5 +70,3 @@ end = time.time()
 running_time=(end - start)
 print "it took: ",running_time, "s"
 print psnr(referenced_picture,compressedImage),"[dB] - bigger value is better"
-
-
