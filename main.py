@@ -3,7 +3,7 @@ import  imageReader
 import fullSearch
 import logsearch
 import time
-#import diamondSearch
+import diamondSearch
 
 __name__='MotionVectorEstimator'
 __version__='1.0.0'
@@ -55,9 +55,9 @@ if "full" in feed_in.lower() :
     compressedImage = full_.createCompressedImage()
     print motion_estimation
 elif "diamond" in feed_in.lower() :
-    # TODO fill me with diamond search code
+    ds = diamondSearch.DiamondSearch(current_picture, referenced_picture, n, p)
+    compressedImage = ds.createCompressedImage()
     print motion_estimation
-    exit()
 elif "log" in feed_in.lower() :
     log = logsearch.LogSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p )
     # motion_estimation = log.motionEstimation()

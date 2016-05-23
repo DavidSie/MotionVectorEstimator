@@ -76,13 +76,20 @@ class Search:
                         for m1 in range(self.n):
                             offset_y = mE[y_][x_][0]
                             offset_x = mE[y_][x_][1]
-                            compressedImage[y + n1 + offset_y][x + m1 + offset_x] = self.current_picture[y+n1][x+m1]
+                            ey = y + n1 + offset_y
+                            ex = x + m1 + offset_x
+                            if ey < 0 or len(self.current_picture) <= ey or  ex < 0 or len(self.current_picture[0]) <= ex:
+                                continue
+                            cy = y + n1
+                            cx = x + m1
+                            compressedImage[ey][ex] = self.current_picture[cy][cx]
         except IndexError as e:
             print "Error: ",e.message,e.args
             print "compressedImage size: [",len(compressedImage),"][",y + n1 + offset_y*self.n,"]"
             print "value: [",y + n1 + offset_y*self.n,"][",x + m1 + offset_x*self.n,"]"
             print "y=",y," n1=",n1," offset_y",offset_y," n=",self.n," x=",x," m1=",m1," offset_x=",offset_x
             print "current_picture[",y+n1,"][",x+m1,"]= ",self.current_picture[y+n1][x+m1]
+            raise e
             exit()
 
         return compressedImage
