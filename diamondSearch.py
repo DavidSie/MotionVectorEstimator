@@ -101,6 +101,6 @@ class DiamondSearch(search.Search):
                 filtered_pattern = filter(lambda x: self.search_area_filter(x), sdsp)
                 last = min(filtered_pattern, key=mblock_cmp)
                 vec = [ -last[0]+self.first[0], last[1]-self.first[1] ]
-                print "vector ({0[0]}, {0[1]}) macroblock {1[0]}, {1[1]}".format(vec, self.first)
+                #print "vector ({0[0]}, {0[1]}) macroblock {1[0]}, {1[1]}".format(vec, self.first)
                 return [ vec[1], vec[0] ]
             origin = next_origin
