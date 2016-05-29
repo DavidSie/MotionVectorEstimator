@@ -1,4 +1,5 @@
 import math
+from PIL import Image
 import  imageReader
 import fullSearch
 import logsearch
@@ -44,8 +45,8 @@ feed_in=raw_input("Choose: Full, Log or Diamond Search")
 
 current_picture=imageReader.loadImage(current_picture_path)
 referenced_picture=imageReader.loadImage(referenced_picture_path)
-p= 4# len(current_picture)/70 # half of search window
-n=4 # size of macroblock
+p = 4# len(current_picture)/70 # half of search window
+n = 4 # size of macroblock
 
 motion_estimation=None
 start = time.time()
@@ -70,3 +71,11 @@ end = time.time()
 running_time=(end - start)
 print "it took: ",running_time, "s"
 print psnr(referenced_picture,compressedImage),"[dB] - bigger value is better"
+
+im = Image.new("L", (len(compressedImage[0]), len(compressedImage)), "white")
+img_list=[]
+for lst in compressedImage:
+    img_list=img_list+lst
+im.putdata(img_list)
+# im.save('out.tif')
+im.show()
