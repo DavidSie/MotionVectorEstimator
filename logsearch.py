@@ -15,6 +15,7 @@ class LogSearch(search.Search):
         self.p = p
         self.x = 0
         self.y = 0
+        self.numOfcomparedMacroblocks=0
 
 
     def __sumOfAbsoluteDifferences__(self,n,m):
@@ -30,6 +31,7 @@ class LogSearch(search.Search):
                 else:
                     #print "makroblok(",i,",",j,")=",self.__makroBlock__(i,j),"makroBlok(",i+n,",",j+m,")=",self.__makroBlock__(i+n,j+m,isCurrent=False)
                     sum = sum + (self.__makroBlock__(i,j)-self.__makroBlock__(i+n,j+m,isCurrent=False))*(self.__makroBlock__(i,j)-self.__makroBlock__(i+n,j+m,isCurrent=False))
+                    self.numOfcomparedMacroblocks=self.numOfcomparedMacroblocks+1
         #print "macroblock",self.__position___(0,0),"for vector[",n,",",m,"] sum=",sum
         return sum
 

@@ -18,6 +18,7 @@ class LDSPGenerator():
         self.last = set()      # compared points in last iteration
         self.visited = set()   # all visited points
         self.origin = None
+        self.numOfcomparedMacroblocks = 0
       
     def setOrigin(self, point):
         """ set origin point """
@@ -54,7 +55,12 @@ def image_area_filter(picture, x):
     return True
         
 class DiamondSearch(search.Search):
+
     
+    def __init__(self, current_picture, referenced_picture, n=2, p=2):
+        super(DiamondSearch, self).__init__(current_picture, referenced_picture, n=2, p=2)
+        self.numOfcomparedMacroblocks=0
+
     def image_area_filter2(self, curr, ref):
         return image_area_filter(self.current_picture, curr) and image_area_filter(self.referenced_picture, ref)
     
@@ -78,8 +84,9 @@ class DiamondSearch(search.Search):
             
             
             _sum += abs(self.current_picture[curr[1]][curr[0]] - self.referenced_picture[ref[1]][ref[0]])
+            self.numOfcomparedMacroblocks=self.numOfcomparedMacroblocks+1
             cnt += 1
-        
+
         _sum /= cnt
         #print "Compute SAD for macroblock ({0[0]}, {0[1]}): {1}".format(ref_center, _sum)
         

@@ -49,27 +49,31 @@ p = 4# len(current_picture)/70 # half of search window
 n = 4 # size of macroblock
 
 motion_estimation=None
+comparations=None
 start = time.time()
 if "full" in feed_in.lower() :
     full_ = fullSearch.FullSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p)
     # motion_estimation = full_.full_.motionEstimation()
     compressedImage = full_.createCompressedImage()
     print motion_estimation
+    comparations=full_.numOfcomparedMacroblocks
 elif "diamond" in feed_in.lower() :
     ds = diamondSearch.DiamondSearch(current_picture, referenced_picture, n, p)
     compressedImage = ds.createCompressedImage()
     print motion_estimation
+    comparations=ds.numOfcomparedMacroblocks
 elif "log" in feed_in.lower() :
     log = logsearch.LogSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p )
     # motion_estimation = log.motionEstimation()
     compressedImage = log.createCompressedImage()
     print motion_estimation
+    comparations=log.numOfcomparedMacroblocks
 else:
     print "Not found"
     exit()
 end = time.time()
 running_time=(end - start)
-print "it took: ",running_time, "s"
+print "it took: ",running_time, "s"," Number of comparitions: ",comparations
 print psnr(referenced_picture,compressedImage),"[dB] - bigger value is better"
 
 im = Image.new("L", (len(compressedImage[0]), len(compressedImage)), "white")
