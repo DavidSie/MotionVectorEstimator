@@ -1,17 +1,25 @@
+from numpy.distutils.system_info import f2py_info
+
 __author__ = 'davidsiecinski'
 from abc import ABCMeta, abstractmethod
+from scipy import interpolate
 
 
 class Search:
     __metaclass__ = ABCMeta
 
-    def __init__(self, current_picture, referenced_picture, n=2, p=2):
+    def __init__(self, current_picture, referenced_picture, n=2, p=2,useIntrpolation=True):
         self.current_picture = current_picture
         self.referenced_picture = referenced_picture
         self.n = n  # size of macroblock
         self.p = p  # defines searched area [-p,p]
         self.x = 0  # curent coordinate of bottom left corner of macroblock
         self.y = 0  # curent coordinate of bottom left corner of macroblock
+        self.useIntrpolation=useIntrpolation
+        if useIntrpolation:
+            self.current_picture_interpolated = self.imageInterpolation(self.current_picture)
+            self.referenced_picture_interpolated = self.imageInterpolation(self.referenced_picture)
+        self.numOfcomparedMacroblocks=0
 
     def setCurrentPicture(self, current_picture):
         self.picture = current_picture
@@ -30,7 +38,7 @@ class Search:
 
     # macroblock is defined by top left corner and size self.N
     # returns a cut part of picture
-    def __makroBlock__(self, i, j, isCurrent=True):
+    def __makroBlock__(self, i, j, isCurrent=True, isInterpolated=False):
         y, x = self.__position___(i, j)
         if x >= len(self.current_picture[0]) or x < 0:  # python allows negative index but I don't
             raise IndexError('x out of list')
@@ -39,9 +47,15 @@ class Search:
         if isCurrent:
             # print "ref_pict[",y,"]","[",x,"]= ",list(reversed(self.current_picture))[y][x]
             # print "row",list(reversed(self.current_picture))[y]
-            return list(reversed(self.current_picture))[y][x]
+            if isInterpolated:
+                return list(reversed(self.current_picture_interpolated))[y][x]
+            else:
+                return list(reversed(self.current_picture))[y][x]
         else:
-            return list(reversed(self.referenced_picture))[y][x]
+            if isInterpolated:
+                return list(reversed(self.referenced_picture_interpolated))[y][x]
+            else:
+                return list(reversed(self.referenced_picture))[y][x]
 
     @abstractmethod
     def motionVector(self):
@@ -59,6 +73,15 @@ class Search:
                 row.append(self.motionVector())
             result.append(row)
         return result
+    def imageInterpolation(self,image):
+        y=range(len(image))
+        x=range(len(image[0]))
+        f = interpolate.interp2d(x, y, image)
+        xx= [x * 0.5 for x in range(2*len(image[0]))]
+        yy=[x * 0.5 for x in range(2*len(image))]
+        interpolated_image=f(xx,yy).tolist()
+        return interpolated_image
+
 
     def createCompressedImage(self):
         num_of_macroblocs_in_y = len(self.current_picture) / self.n

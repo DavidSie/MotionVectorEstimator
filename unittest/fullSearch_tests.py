@@ -1,16 +1,17 @@
 __author__ = 'davidsiecinski'
 import unittest
 import fullSearch
+# import unittest.mock
 
 class FullSearchTestCase (unittest.TestCase):
     def setUp(self):
         current_picture=[[0,0,0,0],[0,1,0,0],[0,3,0,0],[0,0,0,0]]
         reference_picture=[[0,0,0,0],[0,0,1,0],[0,0,3,0],[0,0,0,0]]
-        self.fullsearch_= fullSearch.FullSearch(current_picture,reference_picture)
+        self.fullsearch_= fullSearch.FullSearch(current_picture,reference_picture,useIntrpolation=False)
 
         small_current_picture=[[0,1,0,0]]
         small_reference_picture=[[0,0,1,0]]
-        self.small_fullsearch = fullSearch.FullSearch(small_current_picture,small_reference_picture)
+        self.small_fullsearch = fullSearch.FullSearch(small_current_picture,small_reference_picture,useIntrpolation=False)
 
     def test_macroblock(self):
         # y is reverse counted  to fit x and y axis
@@ -48,3 +49,8 @@ class FullSearchTestCase (unittest.TestCase):
         self.small_fullsearch.p = 1
         # [0,0]
         self.assertEqual(self.fullsearch_.motionEstimation(),result1)
+
+    def test_image_interpolation(self):
+        image=[[0,1,0],[0,1,0],[0,1,0]]#[0,1,1,0,0,0],[0,1,1,0,0,0],[0,1,1,0,0,0],[0,1,1,0,0,0],[0,1,1,0,0,0]]
+        result =[[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.]]
+        self.assertEqual(self.small_fullsearch.imageInterpolation(image),result)

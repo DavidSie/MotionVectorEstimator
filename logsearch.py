@@ -8,14 +8,14 @@ class LogSearch(search.Search):
 
 
 
-    def __init__(self,current_picture, referenced_picture,n=2,p=2):
-        self.current_picture = current_picture
-        self.referenced_picture = referenced_picture
-        self.n = n
-        self.p = p
-        self.x = 0
-        self.y = 0
-        self.numOfcomparedMacroblocks=0
+    # def __init__(self,current_picture, referenced_picture,n=2,p=2):
+    #     self.current_picture = current_picture
+    #     self.referenced_picture = referenced_picture
+    #     self.n = n
+    #     self.p = p
+    #     self.x = 0
+    #     self.y = 0
+    #     self.numOfcomparedMacroblocks=0
 
 
     def __sumOfAbsoluteDifferences__(self,n,m):

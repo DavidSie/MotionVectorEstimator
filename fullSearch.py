@@ -3,17 +3,8 @@ __author__ = 'davidsiecinski'
 import sys
 import search
 class FullSearch(search.Search):
-    def __init__(self,current_picture,referenced_picture,n=2,p=2):
-        # 2d lists
-        self.current_picture=current_picture
-        self.referenced_picture=referenced_picture
-        self.n=n # size of macroblock
-        self.p=p # defines searched area [-p,p]
-        self.x=0 #curent coordinate of bottom left corner of macroblock
-        self.y=0 #curent coordinate of bottom left corner of macroblock
-        self.numOfcomparedMacroblocks=0
 
-    def __sumOfAbsoluteDifferences__(self,n,m):
+    def __sumOfAbsoluteDifferences__(self,n,m,isInterpolated):
         sum=0.0
         for i in range(self.n):
             for j in range(self.n):
@@ -25,7 +16,7 @@ class FullSearch(search.Search):
                     sum =sum + sys.float_info.max/10
                 else:
                     # print "makroblok(",i,",",j,")=",self.__makroBlock__(i,j),"makroblok(",i+n,",",j+m,")=",self.__makroBlock__(i+n,j+m,isCurrent=False)
-                    sum = sum + (self.__makroBlock__(i,j)-self.__makroBlock__(i+n,j+m,isCurrent=False))*(self.__makroBlock__(i,j)-self.__makroBlock__(i+n,j+m,isCurrent=False))
+                    sum = sum + (self.__makroBlock__(i,j,isInterpolated=isInterpolated)-self.__makroBlock__(i+n,j+m,isCurrent=False,isInterpolated=isInterpolated))*(self.__makroBlock__(i,j,isInterpolated=isInterpolated)-self.__makroBlock__(i+n,j+m,isCurrent=False,isInterpolated=isInterpolated))
                     self.numOfcomparedMacroblocks=self.numOfcomparedMacroblocks+1
         # print "macroblock",self.__position___(0,0),"for vector[",n,",",m,"] sum=",sum
         return sum
@@ -40,10 +31,20 @@ class FullSearch(search.Search):
 
         for n in p_range:
             for m in p_range:
-                value=self.__sumOfAbsoluteDifferences__(n,m)
+                value=self.__sumOfAbsoluteDifferences__(n,m,False)
                 # print 'value[',n,',',m,']= ', value
                 if value<min_value:
                     min_value=value
                     min_n=n
                     min_m=m
+        if self.useIntrpolation:
+            for n in range(min_n-1,min_n+1):
+                for m in range(min_m-1,min_m+1):
+                    value=self.__sumOfAbsoluteDifferences__(n,m,True)
+                    # print 'value[',n,',',m,']= ', value
+                    if value<min_value:
+                        min_value=value
+                        min_n=n
+                        min_m=m
+
         return [min_n,min_m]
