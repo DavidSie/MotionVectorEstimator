@@ -51,35 +51,46 @@ n = 4 # size of macroblock
 motion_estimation=None
 comparations=None
 start = time.time()
+end = time.time()
+useIntrpolation=False
+
+
 if "full" in feed_in.lower() :
-    full_ = fullSearch.FullSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p)
-    # motion_estimation = full_.full_.motionEstimation()
+    full_ = fullSearch.FullSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p,useIntrpolation=useIntrpolation)
     compressedImage = full_.createCompressedImage()
-    print motion_estimation
+    end = time.time()
+
+    print full_.motionEstimation()
     comparations=full_.numOfcomparedMacroblocks
-elif "diamond" in feed_in.lower() :
+elif "diamond" in feed_in.lower():
     ds = diamondSearch.DiamondSearch(current_picture, referenced_picture, n, p)
     compressedImage = ds.createCompressedImage()
-    print motion_estimation
+    end = time.time()
+    print ds.motionEstimation()
     comparations=ds.numOfcomparedMacroblocks
 elif "log" in feed_in.lower() :
     log = logsearch.LogSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p )
-    # motion_estimation = log.motionEstimation()
     compressedImage = log.createCompressedImage()
-    print motion_estimation
+    end = time.time()
+
+    print log.motionEstimation()
     comparations=log.numOfcomparedMacroblocks
 else:
     print "Not found"
     exit()
-end = time.time()
+
 running_time=(end - start)
 print "it took: ",running_time, "s"," Number of comparitions: ",comparations
-print psnr(referenced_picture,compressedImage),"[dB] - bigger value is better"
+if useIntrpolation:
+    # Only to get intepolated picture
+    full_ = fullSearch.FullSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p,useIntrpolation=useIntrpolation)
+    print psnr(full_.referenced_picture_interpolated,compressedImage),"[dB] - bigger value is better"
+else:
+    print psnr(referenced_picture,compressedImage),"[dB] - bigger value is better"
 
 im = Image.new("L", (len(compressedImage[0]), len(compressedImage)), "white")
 img_list=[]
 for lst in compressedImage:
     img_list=img_list+lst
 im.putdata(img_list)
-# im.save('out.tif')
 im.show()

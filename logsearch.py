@@ -35,7 +35,7 @@ class LogSearch(search.Search):
         #print "macroblock",self.__position___(0,0),"for vector[",n,",",m,"] sum=",sum
         return sum
 
-    def motionVector(self):
+    def motionVector(self,isInterpolated=False):
         p_range=range(-self.p,self.p+1)
 
         n_start = 0

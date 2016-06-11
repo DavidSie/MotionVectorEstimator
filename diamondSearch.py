@@ -92,7 +92,7 @@ class DiamondSearch(search.Search):
         
         return _sum  
     
-    def motionVector(self):
+    def motionVector(self,isInterpolated=False):
         self.first = ( self.x + self.n/2, self.y  + self.n/2)
         ldsp = LDSPGenerator()
         origin = self.first
