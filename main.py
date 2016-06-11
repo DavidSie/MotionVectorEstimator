@@ -1,5 +1,6 @@
 import math
 from PIL import Image
+import y4m
 import  imageReader
 import fullSearch
 import logsearch
@@ -30,6 +31,12 @@ def psnr(orignal_picture,compressed_picture):
             mx_value=value
     psnr_=10*math.log( mx_value*mx_value/ mse, 10)
     return psnr_
+
+def readStandardSequence(filename):
+    # read y4m file from the
+    data=raw_input(filename)
+    reader =  y4m.Reader(verbose=True)
+    reader.decode(data)
 
 current_picture=[]
 referenced_picture=[]
@@ -69,7 +76,7 @@ elif "diamond" in feed_in.lower():
     print ds.motionEstimation()
     comparations=ds.numOfcomparedMacroblocks
 elif "log" in feed_in.lower() :
-    log = logsearch.LogSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p )
+    log = logsearch.LogSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p, useIntrpolation=useIntrpolation)
     compressedImage = log.createCompressedImage()
     end = time.time()
 
