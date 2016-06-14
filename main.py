@@ -59,11 +59,11 @@ motion_estimation=None
 comparations=None
 start = time.time()
 end = time.time()
-useIntrpolation=False
+useInterpolation=True
 
 
 if "full" in feed_in.lower() :
-    full_ = fullSearch.FullSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p,useIntrpolation=useIntrpolation)
+    full_ = fullSearch.FullSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p,useIntrpolation=useInterpolation)
     compressedImage = full_.createCompressedImage()
     end = time.time()
 
@@ -76,7 +76,7 @@ elif "diamond" in feed_in.lower():
     print ds.motionEstimation()
     comparations=ds.numOfcomparedMacroblocks
 elif "log" in feed_in.lower() :
-    log = logsearch.LogSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p, useIntrpolation=useIntrpolation)
+    log = logsearch.LogSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p, useIntrpolation=useInterpolation)
     compressedImage = log.createCompressedImage()
     end = time.time()
 
@@ -88,12 +88,8 @@ else:
 
 running_time=(end - start)
 print "it took: ",running_time, "s"," Number of comparitions: ",comparations
-if useIntrpolation:
-    # Only to get intepolated picture
-    full_ = fullSearch.FullSearch(current_picture=current_picture,referenced_picture=referenced_picture,n=n,p=p,useIntrpolation=useIntrpolation)
-    print psnr(full_.referenced_picture_interpolated,compressedImage),"[dB] - bigger value is better"
-else:
-    print psnr(referenced_picture,compressedImage),"[dB] - bigger value is better"
+
+print psnr(referenced_picture,compressedImage),"[dB] - bigger value is better"
 
 im = Image.new("L", (len(compressedImage[0]), len(compressedImage)), "white")
 img_list=[]

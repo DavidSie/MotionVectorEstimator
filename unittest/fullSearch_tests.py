@@ -54,3 +54,9 @@ class FullSearchTestCase (unittest.TestCase):
         image=[[0,1,0],[0,1,0],[0,1,0]]#[0,1,1,0,0,0],[0,1,1,0,0,0],[0,1,1,0,0,0],[0,1,1,0,0,0],[0,1,1,0,0,0]]
         result =[[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.]]
         self.assertEqual(self.small_fullsearch.imageInterpolation(image),result)
+
+    def test_imageDownScaling(self):
+        big_image = [[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.],[ 0.,0.5,1.,0.5,0.,0.]]
+        expected_result = [[0,1,0],[0,1,0],[0,1,0]]
+        # self.assertEqual(self.small_fullsearch.imageDownScaling(big_image), expected_result)
+        self.assertAlmostEqual(self.small_fullsearch.imageDownScaling(big_image)[0][1], expected_result[0][1],delta=0.2)

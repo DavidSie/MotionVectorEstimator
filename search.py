@@ -3,6 +3,8 @@ from numpy.distutils.system_info import f2py_info
 __author__ = 'davidsiecinski'
 from abc import ABCMeta, abstractmethod
 from scipy import interpolate
+from scipy import ndimage
+import numpy
 
 
 class Search:
@@ -88,6 +90,11 @@ class Search:
         interpolated_image=f(xx,yy).tolist()
         return interpolated_image
 
+    def imageDownScaling(self,interpolated_image):
+        np_array=numpy.array(interpolated_image)
+        np_array_small=ndimage.interpolation.zoom(np_array,.5,order=5)
+        return np_array_small.tolist()
+
 
     def createCompressedImage(self):
         current_picture=None
@@ -129,5 +136,7 @@ class Search:
             exit()
         except TypeError as e:
             print e.message
-
-        return compressedImage
+        if self.useIntrpolation:
+            return self.imageDownScaling(compressedImage)
+        else:
+            return compressedImage
