@@ -8,7 +8,7 @@ import time
 import diamondSearch
 
 __name__='MotionVectorEstimator'
-__version__='1.1.0'
+__version__='1.2.0'
 
 def raw_input_with_default(text,default):
     input = raw_input(text+'['+default +']'+ chr(8)*4)
@@ -59,7 +59,7 @@ motion_estimation=None
 comparations=None
 start = time.time()
 end = time.time()
-useInterpolation=True
+useInterpolation=False
 
 
 if "full" in feed_in.lower() :
@@ -70,6 +70,9 @@ if "full" in feed_in.lower() :
     print full_.motionEstimation()
     comparations=full_.numOfcomparedMacroblocks
 elif "diamond" in feed_in.lower():
+    if useInterpolation:
+        print "---Diamond search doesn't support interpolation---"
+    useInterpolation=False
     ds = diamondSearch.DiamondSearch(current_picture, referenced_picture, n, p)
     compressedImage = ds.createCompressedImage()
     end = time.time()
@@ -89,7 +92,7 @@ else:
 running_time=(end - start)
 print "it took: ",running_time, "s"," Number of comparitions: ",comparations
 
-print psnr(referenced_picture,compressedImage),"[dB] - bigger value is better"
+print "psnr= ",psnr(referenced_picture,compressedImage),"[dB] - bigger value is better"
 
 im = Image.new("L", (len(compressedImage[0]), len(compressedImage)), "white")
 img_list=[]
